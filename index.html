@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="拖动参数，实时探索波的叠加、相长干涉与相消干涉。Lumina 交互实验室。">
+<title>波的叠加 · Lumina Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#0a101e;--panel:#111b2d;--line:#26344c;--text:#ecf2ff;--muted:#a1b0c9;--a:#7cafff;--b:#f4b678;--sum:#8ce8cc}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 15% 0%,#1c2e49 0,transparent 50%),var(--bg);color:var(--text);font:15px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:3px solid var(--sum);outline-offset:5px}main{max-width:1280px;margin:auto;padding:32px 36px 24px}.brand{display:flex;align-items:center;gap:10px;font-size:12px;letter-spacing:3px;color:var(--muted)}.brand span{color:var(--sum);font-size:24px}header{display:flex;justify-content:space-between;align-items:end;gap:24px;margin:28px 0}h1{font-size:clamp(28px,4vw,45px);font-weight:600;letter-spacing:-1px;margin:0 0 8px}p{margin:0;color:var(--muted)}.tag{border:1px solid var(--line);border-radius:100px;padding:6px 13px;white-space:nowrap;color:var(--sum);font-size:12px}.layout{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px}.panel{background:#111b2de8;border:1px solid var(--line);border-radius:20px;overflow:hidden}.chart-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 24px}.eyebrow{font-size:11px;letter-spacing:2px;color:var(--muted)}.legend{display:flex;gap:15px;font-size:12px}.legend span:before{content:"";display:inline-block;width:12px;height:3px;background:currentColor;vertical-align:middle;margin-right:6px}.wave-a{color:var(--a)}.wave-b{color:var(--b)}.sum{color:var(--sum)}.canvas-wrap{height:370px;padding:0 12px}canvas{display:block;width:100%;height:100%}.toolbar{border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;padding:17px 24px}.buttons{display:flex;gap:8px}button{border:1px solid #35445d;border-radius:9px;background:#1b2940;color:var(--text);padding:8px 13px;transition:background .15s}button:hover{background:#2a3b56}.primary{background:var(--sum);border-color:var(--sum);color:#102d28;font-weight:650}.primary:hover{background:#b0f5e1}.time{font-variant-numeric:tabular-nums;font-size:12px;color:var(--muted)}aside{padding:22px}h2{font-size:16px;margin:0 0 18px}.control-group+.control-group{border-top:1px solid var(--line);margin-top:23px;padding-top:20px}h3{font-size:13px;margin:0 0 16px;font-weight:550}.control{margin-top:16px}.control label{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}output{color:var(--text);font-variant-numeric:tabular-nums}input[type=range]{display:block;width:100%;margin:12px 0 4px;accent-color:var(--a);cursor:pointer}.control-group.b input{accent-color:var(--b)}.presets{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 0}.presets button{font-size:12px;padding:7px 12px;background:transparent}.presets button[aria-pressed=true]{border-color:var(--sum);color:var(--sum);background:#8ce8cc0d}.insights{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:20px}.note{padding:22px}.note h2{margin:0 0 9px;font-size:13px;color:var(--sum)}.note p{font-size:13px}.formula{font-family:ui-monospace,monospace;font-size:18px;margin:7px 0 10px;letter-spacing:.5px}.fine{font-size:11px;color:var(--muted)}footer{margin-top:26px;display:flex;justify-content:space-between;gap:15px;font-size:11px;color:var(--muted)}@media(max-width:900px){main{padding:22px 18px}.layout{grid-template-columns:1fr}aside{display:grid;grid-template-columns:1fr 1fr;gap:20px}aside h2{grid-column:1/-1;margin:0}.control-group+.control-group{margin:0;padding:0;border:0}.canvas-wrap{height:320px}}@media(max-width:540px){header{display:block}.tag{display:inline-block;margin-top:15px}.chart-head{padding:16px;align-items:start;flex-direction:column}.toolbar{padding:14px}.insights{grid-template-columns:1fr}.canvas-wrap{height:280px}aside{gap:18px}.legend{gap:16px}footer{flex-direction:column;gap:4px}}
+</style>
+</head>
+<body>
+<main>
+<div class="brand"><span aria-hidden="true">∿</span> LUMINA / INTERACTIVE LAB</div>
+<header><div><h1>让两条波，发生一点共鸣。</h1><p>拖动参数，亲眼看见相长、相消与波形叠加。</p></div><span class="tag">01 / 波的叠加</span></header>
+<div class="layout">
+<section aria-label="波形可视化">
+<div class="panel">
+<div class="chart-head"><span class="eyebrow">LIVE WAVEFORM</span><div class="legend"><span class="wave-a">波 A</span><span class="wave-b">波 B</span><span class="sum">合成波</span></div></div>
+<div class="canvas-wrap"><canvas id="wave" role="img" aria-label="波 A、波 B 和合成波的动态图；下方文字说明当前叠加状态。">请使用支持 Canvas 的浏览器查看波形。</canvas></div>
+<div class="toolbar"><div class="buttons"><button id="play" class="primary" aria-pressed="true">暂停动画</button><button id="reset">重置</button></div><span class="time" id="clock">t = 0.00 s</span></div>
+</div>
+<div class="presets" role="group" aria-label="实验预设"><button data-preset="constructive" aria-pressed="true">↗ 相长干涉</button><button data-preset="destructive" aria-pressed="false">↘ 完全相消</button><button data-preset="complex" aria-pressed="false">∿ 不同空间频率</button></div>
+<div class="insights"><article class="panel note"><h2>此刻发生了什么？</h2><p id="insight" role="status" aria-live="polite"></p></article><article class="panel note"><h2>叠加原理</h2><div class="formula">y = y₁ + y₂</div><p>同一位置的位移直接相加。两条波峰相遇会增强，波峰与波谷相遇会抵消。</p></article></div>
+</section>
+<aside class="panel"><h2>实验参数</h2>
+<div class="control-group"><h3 class="wave-a">● 波 A</h3>
+<div class="control"><label for="a1">振幅 <output id="a1-out" for="a1"></output></label><input id="a1" type="range" min="0" max="2" step="0.05" value="1"></div>
+<div class="control"><label for="f1">空间频率 <output id="f1-out" for="f1"></output></label><input id="f1" type="range" min="1" max="5" step="0.1" value="2"></div>
+</div>
+<div class="control-group b"><h3 class="wave-b">● 波 B</h3>
+<div class="control"><label for="a2">振幅 <output id="a2-out" for="a2"></output></label><input id="a2" type="range" min="0" max="2" step="0.05" value="1"></div>
+<div class="control"><label for="f2">空间频率 <output id="f2-out" for="f2"></output></label><input id="f2" type="range" min="1" max="5" step="0.1" value="2"></div>
+<div class="control"><label for="phase">初始相位差 <output id="phase-out" for="phase"></output></label><input id="phase" type="range" min="0" max="360" step="1" value="0"></div>
+</div>
+</aside>
+</div>
+<footer><span>空间频率 = 每单位长度的周期数 · 横轴：位置 x · 纵轴：位移 y</span><span>模型：yᵢ = Aᵢ sin[2πkᵢ(x − 0.12t) + φᵢ] · 无量纲演示</span></footer>
+</main>
+<script>
+'use strict';
+const ids=['a1','f1','a2','f2','phase'];
+const controls=Object.fromEntries(ids.map(id=>[id,document.getElementById(id)]));
+const canvas=document.getElementById('wave'),ctx=canvas.getContext('2d');
+const play=document.getElementById('play'),clock=document.getElementById('clock');
+const presets={constructive:{a1:1,f1:2,a2:1,f2:2,phase:0},destructive:{a1:1,f1:2,a2:1,f2:2,phase:180},complex:{a1:1,f1:2,a2:0.8,f2:3,phase:60}};
+let running=!window.matchMedia('(prefers-reduced-motion: reduce)').matches,time=0,last=null,frame=null,width=0,height=0;
+function values(){return Object.fromEntries(ids.map(id=>[id,Number(controls[id].value)]));}
+function sample(x,t,p){const a=p.a1*Math.sin(2*Math.PI*p.f1*(x-.12*t));const b=p.a2*Math.sin(2*Math.PI*p.f2*(x-.12*t)+p.phase*Math.PI/180);return [a,b,a+b];}
+function update(){const p=values();for(const id of ids){document.getElementById(id+'-out').textContent=id==='phase'?p[id]+'°':p[id].toFixed(2)+(id[0]==='f'?' 周期':'');}
+let text='';
+if(p.a1===0&&p.a2===0)text='两条波的振幅都是 0，合成波是一条水平线。';
+else if(p.a1===0||p.a2===0)text='只有一条波有振幅，合成波与这条波完全重合。';
+else if(p.f1===p.f2){const amp=Math.sqrt(Math.max(0,p.a1*p.a1+p.a2*p.a2+2*p.a1*p.a2*Math.cos(p.phase*Math.PI/180)));text=amp<1e-7?'两条波振幅相等、相位相反，位移处处抵消：合成振幅为 0。':`两条波空间频率相同，合成振幅为 ${amp.toFixed(2)}。`+((p.phase===0||p.phase===360)?'波峰对齐，振幅直接相加。':p.phase===180?'波峰与波谷对齐，振幅取两者之差的绝对值。':'试着将相位差拖到 0° 或 180°，观察变化。');}
+else text='空间频率不同，各位置的相位差不同：有的地方增强，有的地方减弱。合成波通常不再是单一正弦波。';
+document.getElementById('insight').textContent=text;
+document.querySelectorAll('[data-preset]').forEach(b=>b.setAttribute('aria-pressed',String(ids.every(id=>p[id]===presets[b.dataset.preset][id]))));draw();}
+function resize(){const r=canvas.getBoundingClientRect();width=r.width;height=r.height;const dpr=Math.min(window.devicePixelRatio||1,3);canvas.width=Math.round(width*dpr);canvas.height=Math.round(height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);draw();}
+function draw(){if(!width||!height)return;ctx.clearRect(0,0,width,height);const p=values(),left=42,right=width-18,top=20,bottom=height-38,w=right-left,h=bottom-top;const Y=y=>top+h/2-y*h/8.8;
+ctx.font='10px system-ui';ctx.textBaseline='middle';
+for(let y=-4;y<=4;y++){ctx.strokeStyle=y===0?'#52617b':'#233149';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(left,Y(y));ctx.lineTo(right,Y(y));ctx.stroke();ctx.fillStyle='#91a2bd';ctx.textAlign='right';ctx.fillText(String(y),left-10,Y(y));}
+for(let i=0;i<=4;i++){const x=left+w*i/4;ctx.strokeStyle='#233149';ctx.beginPath();ctx.moveTo(x,top);ctx.lineTo(x,bottom);ctx.stroke();ctx.textAlign='center';ctx.fillStyle='#91a2bd';ctx.fillText((i/4).toFixed(2),x,bottom+16);}
+ctx.textAlign='left';ctx.fillText('y',12,top);ctx.textAlign='right';ctx.fillText('x',right+10,bottom+16);
+ctx.save();ctx.beginPath();ctx.rect(left,top,w,h);ctx.clip();
+['#7cafff','#f4b678','#8ce8cc'].forEach((color,j)=>{ctx.strokeStyle=color;ctx.lineWidth=j===2?3:1.7;ctx.globalAlpha=j===2?1:.72;ctx.setLineDash(j===0?[6,4]:j===1?[2,4]:[]);ctx.beginPath();const steps=Math.max(400,Math.ceil(w));for(let i=0;i<=steps;i++){const x=i/steps,y=sample(x,time,p)[j];if(i===0)ctx.moveTo(left+x*w,Y(y));else ctx.lineTo(left+x*w,Y(y));}ctx.stroke();});ctx.restore();clock.textContent='t = '+time.toFixed(2)+' s';}
+function tick(now){frame=null;if(!running){last=null;return;}if(last!==null)time+=Math.min((now-last)/1000,.05);last=now;draw();frame=requestAnimationFrame(tick);}
+function syncPlayback(){play.textContent=running?'暂停动画':'播放动画';play.setAttribute('aria-pressed',String(running));if(frame!==null){cancelAnimationFrame(frame);frame=null;}last=null;if(running&&!document.hidden)frame=requestAnimationFrame(tick);}
+ids.forEach(id=>controls[id].addEventListener('input',update));
+play.addEventListener('click',()=>{running=!running;syncPlayback();});
+function applyPreset(key){for(const id of ids)controls[id].value=presets[key][id];update();}
+document.querySelectorAll('[data-preset]').forEach(b=>b.addEventListener('click',()=>applyPreset(b.dataset.preset)));
+document.getElementById('reset').addEventListener('click',()=>{time=0;last=null;applyPreset('constructive');});
+document.addEventListener('visibilitychange',syncPlayback);
+new ResizeObserver(resize).observe(canvas);update();resize();syncPlayback();
+</script>
+</body>
+</html>
